@@ -12,7 +12,7 @@ body {
     font-family: 'Inter', sans-serif; 
     background: var(--soft-white); 
     color: var(--deep-charcoal);
-    overflow-y: auto; /* Ensures scrolling is enabled */
+    overflow-y: auto;
 }
 
 /* Navbar */
@@ -24,248 +24,174 @@ body {
 }
 .main-logo { height: 45px; }
 .nav-links { display: flex; list-style: none; }
-.nav-links a { text-decoration: none; color: var(--deep-charcoal); margin-left: 2rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+.nav-links a { 
+    text-decoration: none; 
+    color: var(--deep-charcoal); 
+    margin-left: 2rem; 
+    font-size: 0.8rem; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+}
 
-/* Hero */
+/* Full-Page Background Slider */
+.page-background {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100vh;
+    z-index: -1; overflow: hidden;
+}
+
+.bg-slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    filter: brightness(0.6) contrast(1.1); /* Slightly darker for better text pop */
+}
+
+.bg-slide.active { opacity: 1; }
+
+/* Hero Section */
 .hero-stack-container {
     height: 100vh; min-height: 700px;
     display: flex; align-items: center; justify-content: space-around;
     padding: 0 8%; position: relative;
+    background: transparent !important;
 }
-.hero-bg-accent { position: absolute; width: 500px; height: 500px; right: -50px; background: var(--gold); filter: blur(150px); opacity: 0.1; z-index: 0; }
+
+.hero-bg-accent { 
+    position: absolute; width: 500px; height: 500px; 
+    right: -50px; background: var(--gold); 
+    filter: blur(150px); opacity: 0.1; z-index: 0; 
+}
+
 .hero-text { z-index: 10; flex: 1; }
-.hero-text h1 { font-family: 'Playfair Display', serif; font-size: 4.5rem; margin-bottom: 10px; }
-.tagline { color: var(--gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; }
-.cta-btn { padding: 1rem 2rem; border: 1px solid var(--gold); color: var(--deep-charcoal); text-decoration: none; font-weight: 600; }
+.hero-text h1 { 
+    font-family: 'Playfair Display', serif; 
+    font-size: 4.5rem; color: white; 
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+    margin-bottom: 10px; 
+}
+
+.tagline { 
+    color: var(--gold); letter-spacing: 3px; 
+    text-transform: uppercase; margin-bottom: 30px; 
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+.achievement {
+    color: white; font-weight: 400; 
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.achievement span { color: white; }
+
+.cta-btn { 
+    padding: 1rem 2rem; border: 1px solid var(--gold); 
+    color: white; text-decoration: none; font-weight: 600;
+    transition: 0.3s;
+}
+.cta-btn:hover { background: var(--gold); color: var(--deep-charcoal); }
 
 /* Stack Interaction */
 .stack-wrapper { flex: 1; position: relative; height: 550px; display: flex; justify-content: center; align-items: center; z-index: 5; }
-/* Ensure border doesn't increase total width/height */
-/* Ensure border doesn't increase total width/height */
+
 .stack-card {
-    box-sizing: border-box; 
-    position: absolute;
-    /* Scaled up dimensions: 340px width x 510px height */
-    width: 340px; 
-    height: 510px;
-    border-radius: 12px;
-    overflow: hidden;
-    
-    /* THE EDGE: Solid white frame */
+    box-sizing: border-box; position: absolute;
+    width: 340px; height: 510px;
+    border-radius: 12px; overflow: hidden;
     border: 8px solid #FFFFFF; 
-    
-    /* THE SHADOW: High contrast to separate from background */
     box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-    
-    background: #fff;
-    transition: var(--transition);
-    cursor: pointer;
+    background: #fff; transition: var(--transition); cursor: pointer;
 }
 
-/* Center Card */
+.stack-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: transform 1s ease; }
+
 .stack-card.active {
-    z-index: 50;
-    /* Scale(1) remains the anchor for the new 340x510 size */
-    transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 1;
-    border-color: #FFFFFF;
-    /* Deep shadow for the top layer */
+    z-index: 50; transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1; border-color: #FFFFFF;
     box-shadow: 0 40px 90px rgba(0,0,0,0.7);
 }
 
-/* Side Cards - Adjusted translation for the larger width */
 .stack-card.prev {
-    z-index: 20;
-    /* Moved out to -140px to prevent center overlap */
-    transform: translate(-140px, 0) rotate(-10deg) scale(0.85);
-    opacity: 0.7;
-    filter: brightness(0.8);
+    z-index: 20; transform: translate(-140px, 0) rotate(-10deg) scale(0.85);
+    opacity: 0.7; filter: brightness(0.8);
 }
 
 .stack-card.next {
-    z-index: 10;
-    /* Moved out to 140px to prevent center overlap */
-    transform: translate(140px, 0) rotate(10deg) scale(0.8);
-    opacity: 0.5;
-    filter: brightness(0.7);
+    z-index: 10; transform: translate(140px, 0) rotate(10deg) scale(0.8);
+    opacity: 0.5; filter: brightness(0.7);
 }
 
-/* Zoom effect stays INSIDE the card frame */
-.stack-card.active:hover img {
-    transform: scale(1.1);
-}
+.stack-card.active:hover img { transform: scale(1.1); }
 
 .card-label {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
+    position: absolute; bottom: 20px; left: 20px;
     background: rgba(255, 255, 255, 0.95);
-    padding: 6px 15px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--deep-charcoal);
-    text-transform: uppercase;
-    border-radius: 4px;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 6px 15px; font-size: 0.8rem; font-weight: 700;
+    color: var(--deep-charcoal); text-transform: uppercase;
+    border-radius: 4px; letter-spacing: 1px;
 }
-.stack-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: transform 1s ease; }
-
-
 
 /* Portfolio */
-.portfolio { padding: 100px 8%; background: var(--soft-white); }
+.portfolio { 
+    padding: 100px 8%; background: rgba(252, 251, 247, 0.8) !important; 
+    backdrop-filter: blur(5px);
+}
 .section-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-align: center; margin-bottom: 50px; }
 .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
 .gallery-item { height: 400px; overflow: hidden; border-radius: 8px; position: relative; }
 .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
 .gallery-item:hover img { transform: scale(1.1); }
-.item-overlay { position: absolute; bottom: 0; width: 100%; padding: 20px; color: white; background: linear-gradient(transparent, rgba(0,0,0,0.7)); }
-
-/* About & Contact */
-.about { padding: 100px 8%; background: white; }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-.about-image {
-    max-width: 450px; /* Set a maximum width that looks good on desktop */
-    margin: 0 auto;  /* Centers it if the grid stacks on mobile */
-    position: relative;
+.item-overlay { 
+    position: absolute; bottom: 0; width: 100%; padding: 20px; 
+    color: white; background: linear-gradient(transparent, rgba(0,0,0,0.7)); 
 }
+
+/* About Section */
+.about { 
+    padding: 100px 8%; background: rgba(255, 255, 255, 0.85) !important; 
+    backdrop-filter: blur(5px);
+}
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+.about-image { max-width: 450px; margin: 0 auto; position: relative; }
 .about-image img {
-    width: 100%;       /* Fills the 450px container */
-    height: 550px;     /* Set a fixed height for that vertical look */
-    object-fit: cover; /* Crops the photo perfectly to fill the space without stretching */
-    border-radius: 15px;
-    box-shadow: 20px 20px 0 var(--gold); /* Your signature gold shadow */
+    width: 100%; height: 550px; object-fit: cover;
+    border-radius: 15px; box-shadow: 20px 20px 0 var(--gold);
     display: block;
 }
 .award-badge { color: var(--gold); font-weight: 600; margin-top: 20px; }
 
+/* Contact Section */
 .contact { padding: 80px 8%; text-align: center; background: var(--deep-charcoal); color: white; }
 .social-links { margin-top: 30px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
-.social-links a { color: white; text-decoration: none; font-size: 1rem; }
+.social-links a { color: white; text-decoration: none; font-size: 1rem; transition: 0.3s; }
+.social-links a:hover { color: var(--gold); }
 
 /* Unified Mobile Optimization */
 @media (max-width: 800px) {
-    /* 1. Fix Hero Centering & Padding */
     .hero-stack-container {
-        flex-direction: column;
-        text-align: center;
-        justify-content: center; /* Centers items vertically */
-        padding: 120px 20px 50px 20px; /* Added side padding to prevent edge touching */
-        height: auto;
-        min-height: 100vh;
+        flex-direction: column; text-align: center;
+        justify-content: center; padding: 120px 20px 50px 20px;
+        height: auto; min-height: 100vh;
     }
 
-    .hero-text {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 40px; /* Space between text and the image stack */
-    }
+    .hero-text { width: 100%; max-width: 100%; margin-bottom: 40px; }
 
-    /* 2. Fix "Shimmernaya" Text Size */
-    .hero-text h1 {
-        font-size: 3rem; /* Scaled down so it doesn't hit edges */
-        word-wrap: break-word;
-        padding: 0 10px;
-    }
+    .hero-text h1 { font-size: 3rem; word-wrap: break-word; padding: 0 10px; }
 
-    /* 3. Fix Achievement Color (Was black, now white for visibility) */
-    .achievement {
-        color: white;
-        font-weight: 400;
-        margin-bottom: 20px;
-        text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-    }
-    
-    .achievement span {
-        color: white; /* Ensures both spans are visible */
-    }
+    .stack-wrapper { width: 100%; height: 450px; margin: 0 auto; }
 
-    /* 4. Fix Stack Size & Alignment */
-    .stack-wrapper {
-        width: 100%;
-        height: 450px;
-        margin: 0 auto;
-    }
+    .stack-card { width: 240px; height: 360px; border-width: 5px; }
 
-    .stack-card {
-        width: 240px; /* Slightly smaller for better fit */
-        height: 360px;
-        border-width: 5px; /* Thinner border for mobile */
-    }
+    .stack-card.prev { transform: translate(-60px, 0) rotate(-6deg) scale(0.85); }
+    .stack-card.next { transform: translate(60px, 0) rotate(6deg) scale(0.85); }
 
-    /* Side card positioning for mobile */
-    .stack-card.prev { 
-        transform: translate(-60px, 0) rotate(-6deg) scale(0.85); 
-    }
-    .stack-card.next { 
-        transform: translate(60px, 0) rotate(6deg) scale(0.85); 
-    }
-
-    /* 5. Fix About Section Grid */
-    .about-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        padding: 0 20px;
-    }
-
-    .about-image img {
-        height: 400px; /* Shorter for mobile viewing */
-    }
+    .about-grid { grid-template-columns: 1fr; gap: 30px; padding: 0 20px; }
+    .about-image img { height: 400px; }
 }
 
-/* Specific Fix for very small screens (iPhone SE etc) */
 @media (max-width: 400px) {
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-    .stack-card {
-        width: 200px;
-        height: 300px;
-    }
+    .hero-text h1 { font-size: 2.5rem; }
+    .stack-card { width: 200px; height: 300px; }
 }
-
-/* Full-Page Background Slider */
-.page-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: -1; /* Puts it behind everything */
-    overflow: hidden;
-}
-
-.bg-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures horizontal images fill the screen */
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out; /* Smooth fade between images */
-    filter: brightness(0.7) contrast(1.1); /* Darkens slightly so text is readable */
-}
-
-.bg-slide.active {
-    opacity: 1;
-}
-
-/* Adjust Section Backgrounds to be Transparent */
-/* We need to make your sections see-through so the background shows */
-.hero-stack-container, .portfolio, .about {
-    background: transparent !important;
-}
-
-/* Add a slight glass effect to sections to keep text readable */
-.about, .portfolio {
-    background: rgba(252, 251, 247, 0.8) !important; /* Semi-transparent white */
-    backdrop-filter: blur(5px); /* Blurs the background image under the text */
-}
-
-.hero-text h1, .hero-text p {
-    color: white; /* Make hero text white to pop against background images */
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-}
-
