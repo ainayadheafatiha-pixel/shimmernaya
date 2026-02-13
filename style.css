@@ -144,17 +144,85 @@ body {
 .social-links { margin-top: 30px; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
 .social-links a { color: white; text-decoration: none; font-size: 1rem; }
 
+/* Unified Mobile Optimization */
 @media (max-width: 800px) {
-    .hero-stack-container { flex-direction: column; text-align: center; padding-top: 100px; }
-    .about-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 768px) {
-    .stack-card {
-        width: 260px; /* Smaller for mobile screens */
-        height: 390px;
+    /* 1. Fix Hero Centering & Padding */
+    .hero-stack-container {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center; /* Centers items vertically */
+        padding: 120px 20px 50px 20px; /* Added side padding to prevent edge touching */
+        height: auto;
+        min-height: 100vh;
     }
-    .stack-card.prev { transform: translate(-70px, 0) rotate(-8deg) scale(0.85); }
-    .stack-card.next { transform: translate(70px, 0) rotate(8deg) scale(0.8); }
+
+    .hero-text {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 40px; /* Space between text and the image stack */
+    }
+
+    /* 2. Fix "Shimmernaya" Text Size */
+    .hero-text h1 {
+        font-size: 3rem; /* Scaled down so it doesn't hit edges */
+        word-wrap: break-word;
+        padding: 0 10px;
+    }
+
+    /* 3. Fix Achievement Color (Was black, now white for visibility) */
+    .achievement {
+        color: white;
+        font-weight: 400;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    }
+    
+    .achievement span {
+        color: white; /* Ensures both spans are visible */
+    }
+
+    /* 4. Fix Stack Size & Alignment */
+    .stack-wrapper {
+        width: 100%;
+        height: 450px;
+        margin: 0 auto;
+    }
+
+    .stack-card {
+        width: 240px; /* Slightly smaller for better fit */
+        height: 360px;
+        border-width: 5px; /* Thinner border for mobile */
+    }
+
+    /* Side card positioning for mobile */
+    .stack-card.prev { 
+        transform: translate(-60px, 0) rotate(-6deg) scale(0.85); 
+    }
+    .stack-card.next { 
+        transform: translate(60px, 0) rotate(6deg) scale(0.85); 
+    }
+
+    /* 5. Fix About Section Grid */
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 0 20px;
+    }
+
+    .about-image img {
+        height: 400px; /* Shorter for mobile viewing */
+    }
+}
+
+/* Specific Fix for very small screens (iPhone SE etc) */
+@media (max-width: 400px) {
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    .stack-card {
+        width: 200px;
+        height: 300px;
+    }
 }
 
 /* Full-Page Background Slider */
